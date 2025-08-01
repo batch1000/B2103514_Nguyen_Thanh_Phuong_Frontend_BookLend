@@ -13,6 +13,10 @@ export const bookService = {
         return apiService.post('book/getOneBook', { keyword });
     },
 
+    async getBookById(id) {
+        return apiService.post('book/getBookById', { id });
+    },
+
     async addBook(data) {
         return apiService.post('book/addbook', data);
     },

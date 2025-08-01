@@ -113,7 +113,10 @@
                   :key="book._id"
                 >
                   <div class="book__library-list-book-element">
-                    <div class="book__library-list-book-element-image">
+                    <div
+                      class="book__library-list-book-element-image"
+                      @click="goToBookDetail(book._id)"
+                    >
                       <img :src="book.Image" alt="" />
 
                       <div class="home__book-action-icon">
@@ -132,7 +135,10 @@
                     </div>
 
                     <div class="book__library-list-book-element-information">
-                      <div class="book__library-list-book-element-title">
+                      <div
+                        class="book__library-list-book-element-title"
+                        @click="goToBookDetail(book._id)"
+                      >
                         {{ book.TenSach }}
                       </div>
 
@@ -252,6 +258,11 @@ export default {
       this.currentPage = pageFromURL;
     }
 
+    const genreFromURL = this.$route.query.genre;
+    if (genreFromURL) {
+      this.selectedGenres = [genreFromURL];
+    }
+
     this.fetchGenres();
 
     try {
@@ -286,6 +297,10 @@ export default {
       } catch (error) {
         console.error("Lỗi khi tải danh sách thể loại:", error);
       }
+    },
+
+    goToBookDetail(bookId) {
+      this.$router.push({ name: "DetailBook", params: { id: bookId } });
     },
   },
   computed: {
@@ -345,6 +360,14 @@ export default {
       const page = parseInt(newPage);
       if (!isNaN(page) && page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
+      }
+    },
+
+    "$route.query.genre"(newGenre) {
+      if (newGenre) {
+        this.selectedGenres = [newGenre];
+      } else {
+        this.selectedGenres = [];
       }
     },
 

@@ -130,8 +130,9 @@ button {
     display: none;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 10px;
-    min-width: 600px;
     padding: 20px;
+    min-width: 835px;
+    left: -148px;
 }
 
 .book__dropdown-catagories-menu a{

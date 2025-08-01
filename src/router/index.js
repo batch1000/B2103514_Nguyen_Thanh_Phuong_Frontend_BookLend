@@ -44,6 +44,13 @@ const routes = [
     name: 'Library',
     component: () => import('../views/Library.vue')
   },
+  ,
+  {
+    path: '/detailBook/:id',
+    name: 'DetailBook',
+    component: () => import('../views/DetailBook.vue'),
+    props: true
+  },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',

@@ -8,22 +8,24 @@
 
         <div class="book__header-navigation">
           <router-link to="/home" class="book__header-link">Home</router-link>
+
           <div class="book__dropdown-catagories">
             <a href="#" class="book__header-link">Categories</a>
             <div class="book__dropdown-catagories-menu">
-              <a href="#">Fiction</a>
-              <a href="#">Non-fiction</a>
-              <a href="#">Science</a>
-              <a href="#">History</a>
-              <a href="#">Fantasy</a>
-              <a href="#">Romance</a>
-              <a href="#">Romance</a>
-              <a href="#">Romance</a>
-              <a href="#">Romance</a>
-              <a href="#">Romance</a>
+              <a
+                href="#"
+                v-for="genre in genres"
+                :key="genre._id"
+                @click.prevent="goToLibraryWithGenre(genre._id)"
+              >
+                {{ genre.TenTheLoai }}
+              </a>
             </div>
           </div>
-          <router-link to="/library" class="book__header-link">Library</router-link>
+
+          <router-link to="/library" class="book__header-link"
+            >Library</router-link
+          >
           <a href="#" class="book__header-link">My books</a>
         </div>
 
@@ -47,7 +49,34 @@
 
 
 <script>
+import { bookService } from "../services/book/book.service";
+
 export default {
   name: "Header",
+  data() {
+    return {
+      genres: [],
+    };
+  },
+  async mounted() {
+    await this.fetchGenres();
+  },
+  methods: {
+    async fetchGenres() {
+      try {
+        const response = await bookService.getAllGenre();
+        this.genres = response;
+      } catch (error) {
+        console.error("Lỗi khi tải danh sách thể loại:", error);
+      }
+    },
+
+    goToLibraryWithGenre(genreId) {
+      this.$router.push({
+        name: "Library",
+        query: { genre: genreId },
+      });
+    },
+  },
 };
 </script>
