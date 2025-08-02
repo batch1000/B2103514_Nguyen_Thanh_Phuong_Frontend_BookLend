@@ -233,7 +233,6 @@ import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 
 import { bookService } from "../services/book/book.service";
-import { userState } from "../assets/js/userState";
 
 export default {
   name: "Library",
@@ -383,6 +382,12 @@ export default {
       this.goToPage(1);
     },
   },
+
+  beforeRouteEnter(to, from, next) {
+    next(() => {
+      window.scrollTo(0, 0);
+    });
+  }
 };
 </script>
 

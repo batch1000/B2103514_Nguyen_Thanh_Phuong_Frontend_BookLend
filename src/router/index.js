@@ -33,6 +33,10 @@ const routes = [
         component: () => import('../views/DeleteBook.vue'),
       },
       {
+        path: 'managementBorrowBook',
+        component: () => import('../views/ManagementBorrowBook.vue'),
+      },
+      {
         path: '',
         redirect: 'addBook'
       }
@@ -68,7 +72,7 @@ router.beforeEach((to, from, next) => {
   const role = localStorage.getItem('role')
 
   if (to.path === '/' && isLoggedIn) {
-    if (role === 'Admin') return next('/homeAdmin/addBook')
+    if (role === 'Admin') return next('/homeAdmin/managementBorrowBook')
     return next('/home')
   }
 

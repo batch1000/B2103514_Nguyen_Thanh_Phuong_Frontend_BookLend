@@ -16,11 +16,11 @@
 
           <!-- Các mục menu -->
           <router-link
-            to="/homeAdmin/borrowBook"
+            to="/homeAdmin/managementBorrowBook"
             class="book__admin-navigation-option"
             :class="{
               'book__admin-navigation-option--choosing':
-                $route.path.includes('borrowBook'),
+                $route.path.includes('managementBorrowBook'),
             }"
           >
             <div class="book__admin-navigation-icon">
@@ -69,13 +69,6 @@
               <i class="fa-solid fa-trash"></i>
             </div>
             <div class="book__admin-navigation-title">Delete Book</div>
-          </router-link>
-
-          <router-link to="/library" class="book__admin-navigation-option">
-            <div class="book__admin-navigation-icon">
-              <i class="fa-solid fa-book"></i>
-            </div>
-            <div class="book__admin-navigation-title">Library</div>
           </router-link>
         </div>
       </div>

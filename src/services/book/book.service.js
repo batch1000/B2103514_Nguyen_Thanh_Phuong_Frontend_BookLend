@@ -27,5 +27,13 @@ export const bookService = {
 
     async deleteBook(id) {
         return apiService.post(`book/deleteBook/${id}`);
+    },
+
+    async lendBook(data) {
+        return apiService.post('book/lendBook', data);
+    },
+
+    async getInfoLendBook(data) {
+        return apiService.post('book/getInfoLendBook', data);
     }
 };

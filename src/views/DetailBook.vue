@@ -13,7 +13,7 @@
         <div class="detailbook__information-book">
           <div class="detailbook__information-book-header">
             <div class="detailbook__information-book-title">
-              {{ book.TenSach }}
+              {{ book.TenSach }} ({{ book.MaSach }})
             </div>
             <div class="detailbook__information-book-header-wrapper">
               <div class="detailbook__information-book-author">
@@ -70,20 +70,46 @@
             </div>
           </div>
 
-          <div class="detailbook__information-book-button">
-            <button
-              type="button"
-              class="detailbook__information-book-btn-borrow"
-            >
-              Mượn Sách
-            </button>
-            <div class="detailbook__information-book-btn-favorite-wrapper">
-              <i class="fa-solid fa-heart"></i>
-              <span class="detailbook__information-book-btn-favorite-content"
-                >Thêm vào yêu thích</span
-              >
+          <div
+            v-if="book.SoQuyen > 0"
+            class="detailbook__information-book-quantity-selector"
+          >
+            <div class="quantity-selector-wrapper">
+              <span class="quantity-label">Số lượng mượn:</span>
+              <div class="quantity-controls">
+                <button
+                  type="button"
+                  class="quantity-btn"
+                  @click="decreaseQuantity"
+                  :disabled="borrowQuantity <= 1"
+                >
+                  -
+                </button>
+                <span class="quantity-display">{{ borrowQuantity }}</span>
+                <button
+                  type="button"
+                  class="quantity-btn"
+                  @click="increaseQuantity"
+                  :disabled="borrowQuantity >= maxBorrowQuantity"
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
+
+          <button
+            type="button"
+            class="detailbook__information-book-btn-borrow"
+            :class="{
+              'borrowed-success': hasBorrowed,
+              'out-of-stock': book.SoQuyen === 0,
+            }"
+            @click="lendBook"
+            :disabled="hasBorrowed || book.SoQuyen === 0"
+          >
+            {{ getButtonText() }}
+          </button>
         </div>
       </div>
     </div>
@@ -135,7 +161,9 @@
 <script>
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
+
 import { bookService } from "../services/book/book.service";
+import { userState } from "../assets/js/userState";
 
 export default {
   name: "DetailBook",
@@ -148,9 +176,13 @@ export default {
     return {
       book: {},
       relatedBooks: [],
+      hasBorrowed: false,
+      borrowQuantity: 1,
+      lendInfo: null,
     };
   },
   async mounted() {
+    window.scrollTo(0, 0);
     await this.fetchBookDetail();
   },
   methods: {
@@ -158,6 +190,12 @@ export default {
       try {
         const response = await bookService.getBookById(this.id);
         this.book = response;
+
+        // Reset số lượng mượn khi load sách mới
+        this.borrowQuantity = 1;
+
+        // Kiểm tra trạng thái mượn sách
+        await this.checkLendStatus();
 
         await this.getRelatedBooks();
       } catch (error) {
@@ -200,22 +238,204 @@ export default {
         currency: "VND",
       }).format(value);
     },
-  },
-  watch: {
-    id(newId) {
-      if (newId) {
-        this.fetchBookDetail();
 
-        this.$nextTick(() => {
-          window.scrollTo(0, 0);
-        });
+    async lendBook() {
+  if (this.book.SoQuyen === 0) {
+    alert("Sách đã hết!");
+    return;
+  }
+
+  if (this.hasBorrowed) {
+    alert("Bạn đã đăng ký mượn sách này rồi!");
+    return;
+  }
+
+  try {
+    const data = {
+      MaSach: this.book._id,
+      MaDocGia: userState._id,
+      SoLuongMuon: this.borrowQuantity,
+    };
+    await bookService.lendBook(data);
+    
+    // Reload trạng thái sau khi mượn thành công
+    await this.checkLendStatus();
+    
+    alert(`Đăng ký mượn ${this.borrowQuantity} cuốn sách thành công`);
+  } catch (error) {
+    alert("Đã xảy ra lỗi!");
+  }
+},
+
+    increaseQuantity() {
+      if (this.borrowQuantity < this.maxBorrowQuantity) {
+        this.borrowQuantity++;
       }
+    },
+
+    // Giảm số lượng mượn
+    decreaseQuantity() {
+      if (this.borrowQuantity > 1) {
+        this.borrowQuantity--;
+      }
+    },
+
+    // Lấy text cho button
+    getButtonText() {
+  if (this.book.SoQuyen === 0) {
+    return "Hết Sách";
+  }
+  
+  if (this.hasBorrowed && this.lendInfo) {
+    switch (this.lendInfo.TrangThai) {
+      case 'pending':
+        return "Chờ duyệt";
+      case 'approved':
+        return "Đã duyệt";
+      case 'borrowing':
+        return "Đang mượn";
+      case 'returned':
+        return "Đã trả";
+      case 'overdue':
+        return "Quá hạn";
+      case 'denied':
+        return "Bị từ chối";
+      default:
+        return "Đã gửi yêu cầu";
+    }
+  }
+  
+  return "Mượn Sách";
+},
+
+    async checkLendStatus() {
+      try {
+        const response = await bookService.getInfoLendBook({
+          MaSach: this.book._id,
+          MaDocGia: userState._id,
+        });
+
+        if (
+          response &&
+          (response.TrangThai === "pending" ||
+            response.TrangThai === "approved" ||
+            response.TrangThai === "borrowing")
+        ) {
+          this.hasBorrowed = true;
+          this.lendInfo = response;
+        } else {
+          this.hasBorrowed = false;
+          this.lendInfo = null;
+        }
+      } catch (error) {
+        // Nếu không tìm thấy hoặc lỗi thì chưa mượn
+        this.hasBorrowed = false;
+        this.lendInfo = null;
+      }
+    },
+  },
+
+  watch: {
+  id(newId) {
+    if (newId) {
+      this.hasBorrowed = false; // Reset trạng thái
+      this.lendInfo = null;     // Reset thông tin mượn
+      this.fetchBookDetail();
+
+      this.$nextTick(() => {
+        window.scrollTo(0, 0);
+      });
+    }
+  },
+},
+
+  computed: {
+    // Tính toán số lượng tối đa có thể mượn (tối đa 3 hoặc bằng SoQuyen nếu ít hơn 3)
+    maxBorrowQuantity() {
+      if (!this.book.SoQuyen) return 0;
+      return Math.min(3, this.book.SoQuyen);
     },
   },
 };
 </script>
 
 <style scoped>
+.out-of-stock {
+  background-color: #95a5a6 !important;
+  color: white !important;
+  border: none;
+  cursor: not-allowed;
+}
+
+/* Style cho phần chọn số lượng */
+.detailbook__information-book-quantity-selector {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.quantity-selector-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.quantity-label {
+  font-size: 1.4rem;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-btn {
+  width: 35px;
+  height: 35px;
+  border: 1px solid #ddd;
+  background-color: #f8f9fa;
+  color: #333;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background-color: #f55c4e;
+  color: white;
+  border-color: #f55c4e;
+}
+
+.quantity-btn:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.quantity-display {
+  font-size: 1.6rem;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+  color: #333;
+}
+
+.borrowed-success {
+  background-color: #2ecc71 !important; /* Xanh lá thành công */
+  color: white !important;
+  border: none;
+  cursor: auto;
+}
+
 .home__book-header {
   display: flex;
   justify-content: space-between;
