@@ -44,5 +44,9 @@ export const bookService = {
       
     async updateBorrowStatus(data) {
         return apiService.post('book/updateBorrowStatus', data);
+    },
+
+    async extendBorrowTime(data) {
+        return apiService.post('book/extendBorrowTime', data);
     }
 };

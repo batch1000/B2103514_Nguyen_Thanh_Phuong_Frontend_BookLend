@@ -131,56 +131,71 @@
         </tr>
       </thead>
       <tbody>
-  <tr v-for="item in filteredTrackBorrowList" :key="item._id">
-    <td class="borrow-book__list-borrowed-content">
-      {{ item.MaDocGia?.MaDocGia }}
-    </td>
-    <td class="borrow-book__list-borrowed-content">
-      {{ item.MaDocGia?.HoLot }} {{ item.MaDocGia?.Ten }}
-    </td>
-    <td class="borrow-book__list-borrowed-content">
-      {{ item.MaSach?.TenSach }}
-    </td>
-    <td class="borrow-book__list-borrowed-content">
-      {{ new Date(item.NgayMuon).toLocaleDateString("vi-VN") }}
-    </td>
-    <td class="borrow-book__list-borrowed-content">
-      {{ new Date(item.NgayTra).toLocaleDateString("vi-VN") }}
-    </td>
-    <td class="borrow-book__list-borrowed-content">
-      <div
-        :class="{
-          'borrow-book__list-borrowed-status-borrowing': item.TrangThai === 'approved',
-          'borrow-book__list-borrowed-status-overdue':  item.TrangThai === 'overdue',
-          'borrow-book__list-borrowed-status-returned': item.TrangThai === 'returned',
-        }"
-      >
-        {{
-          item.TrangThai === 'approved'
-            ? 'Đang Mượn'
-            : item.TrangThai === 'overdue'
-            ? 'Quá Hạn'
-            : 'Đã Trả'
-        }}
-      </div>
-    </td>
-    <td class="borrow-book__list-borrowed-content">
-      <template v-if="item.TrangThai === 'approved' || item.TrangThai === 'overdue'">
-        <button type="button" class="borrow-book__list-borrowed-btn-return">
-          Đã trả
-        </button>
-        <button type="button" class="borrow-book__list-borrowed-btn-extend">
-          Gia hạn
-        </button>
-      </template>
-      <template v-else>
-        <div class="borrow-book__list-borrowed-btn-completed">
-          Hoàn thành
-        </div>
-      </template>
-    </td>
-  </tr>
-</tbody>
+        <tr v-for="item in filteredTrackBorrowList" :key="item._id">
+          <td class="borrow-book__list-borrowed-content">
+            {{ item.MaDocGia?.MaDocGia }}
+          </td>
+          <td class="borrow-book__list-borrowed-content">
+            {{ item.MaDocGia?.HoLot }} {{ item.MaDocGia?.Ten }}
+          </td>
+          <td class="borrow-book__list-borrowed-content">
+            {{ item.MaSach?.TenSach }}
+          </td>
+          <td class="borrow-book__list-borrowed-content">
+            {{ new Date(item.NgayMuon).toLocaleDateString("vi-VN") }}
+          </td>
+          <td class="borrow-book__list-borrowed-content">
+            {{ new Date(item.NgayTra).toLocaleDateString("vi-VN") }}
+          </td>
+          <td class="borrow-book__list-borrowed-content">
+            <div
+              :class="{
+                'borrow-book__list-borrowed-status-borrowing':
+                  item.TrangThai === 'approved',
+                'borrow-book__list-borrowed-status-overdue':
+                  item.TrangThai === 'overdue',
+                'borrow-book__list-borrowed-status-returned':
+                  item.TrangThai === 'returned',
+              }"
+            >
+              {{
+                item.TrangThai === "approved"
+                  ? "Đang Mượn"
+                  : item.TrangThai === "overdue"
+                  ? "Quá Hạn"
+                  : "Đã Trả"
+              }}
+            </div>
+          </td>
+          <td class="borrow-book__list-borrowed-content">
+            <template
+              v-if="
+                item.TrangThai === 'approved' || item.TrangThai === 'overdue'
+              "
+            >
+              <button
+                type="button"
+                class="borrow-book__list-borrowed-btn-return"
+                @click="markAsReturned(item._id)"
+              >
+                Đã trả
+              </button>
+              <button
+                type="button"
+                class="borrow-book__list-borrowed-btn-extend"
+                @click="handleExtendBorrow(item)"
+              >
+                Gia hạn
+              </button>
+            </template>
+            <template v-else>
+              <div class="borrow-book__list-borrowed-btn-completed">
+                Hoàn thành
+              </div>
+            </template>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </template>
@@ -235,12 +250,18 @@ export default {
     async fetchTrackBorrowList() {
       try {
         const response = await bookService.getTrackBorrowBook();
-        this.trackBorrowList = response || [];
+        const result = [];
+
+        for (const item of response || []) {
+          const updatedItem = await this.updateOverdueIfNeeded(item);
+          result.push(updatedItem);
+        }
+
+        this.trackBorrowList = result;
       } catch (error) {
         console.error("Lỗi khi lấy danh sách mượn:", error);
       }
     },
-
     async approveRequest(id) {
       try {
         await bookService.updateBorrowStatus({
@@ -266,37 +287,107 @@ export default {
         console.error("Lỗi từ chối yêu cầu:", err);
       }
     },
+
+    async markAsReturned(id) {
+      try {
+        await bookService.updateBorrowStatus({
+          requestId: id,
+          adminId: userState._id,
+          status: "returned",
+        });
+        this.fetchTrackBorrowList(); // Refresh lại danh sách
+      } catch (err) {
+        console.error("Lỗi đánh dấu đã trả:", err);
+      }
+    },
+
+    async updateOverdueIfNeeded(item) {
+      const now = new Date();
+      const ngayTra = new Date(item.NgayTra);
+
+      if (item.TrangThai === "approved" && ngayTra < now) {
+        try {
+          await bookService.updateBorrowStatus({
+            requestId: item._id,
+            adminId: userState._id,
+            status: "overdue",
+          });
+          item.TrangThai = "overdue"; // Cập nhật local để hiển thị đúng
+        } catch (err) {
+          console.error(`Lỗi cập nhật quá hạn cho ${item._id}:`, err);
+        }
+      }
+
+      return item;
+    },
+
+    async handleExtendBorrow(item) {
+      const GIA_HAN_THEM_NGAY = 3;
+
+      // Kiểm tra nếu đã gia hạn rồi
+      const ngayMuon = new Date(item.NgayMuon);
+      const ngayTra = new Date(item.NgayTra);
+      const soNgay = Math.floor((ngayTra - ngayMuon) / (1000 * 60 * 60 * 24));
+
+      if (soNgay > 7) {
+        alert("Bạn chỉ được gia hạn 1 lần!");
+        return;
+      }
+
+      const confirmExtend = confirm(
+        `Bạn có chắc muốn gia hạn thêm ${GIA_HAN_THEM_NGAY} ngày không?`
+      );
+      if (!confirmExtend) return;
+
+      try {
+        const newDueDate = new Date(item.NgayTra);
+        newDueDate.setDate(newDueDate.getDate() + GIA_HAN_THEM_NGAY);
+
+        // Gửi API gọi backend (chưa làm ở bước này, bạn sẽ xử lý sau)
+        await bookService.extendBorrowTime({
+          requestId: item._id,
+          adminId: userState._id,
+          newDueDate: newDueDate.toISOString(),
+        });
+
+        alert(`Đã gia hạn đến ngày ${newDueDate.toLocaleDateString("vi-VN")}`);
+        this.fetchTrackBorrowList(); // Load lại danh sách mượn
+      } catch (error) {
+        console.error("Gia hạn thất bại:", error);
+        alert("Gia hạn thất bại. Vui lòng thử lại sau.");
+      }
+    },
   },
 
   computed: {
     filteredTrackBorrowList() {
-    // Mặc định all thì vẫn trả về đầy đủ trackBorrowList
-    if (this.selectedStatus === "all") {
-      // với tab borrowed: chỉ lấy 3 trạng thái đúng
-      if (this.currentTab === "borrowed") {
-        return this.trackBorrowList.filter(item =>
-          ["approved", "overdue", "returned"].includes(item.TrangThai)
+      // Mặc định all thì vẫn trả về đầy đủ trackBorrowList
+      if (this.selectedStatus === "all") {
+        // với tab borrowed: chỉ lấy 3 trạng thái đúng
+        if (this.currentTab === "borrowed") {
+          return this.trackBorrowList.filter((item) =>
+            ["approved", "overdue", "returned"].includes(item.TrangThai)
+          );
+        }
+        // với tab require: lấy cả 3 trạng thái của yêu cầu
+        return this.trackBorrowList.filter((item) =>
+          ["pending", "approved", "denied"].includes(item.TrangThai)
         );
       }
-      // với tab require: lấy cả 3 trạng thái của yêu cầu
-      return this.trackBorrowList.filter(item =>
-        ["pending", "approved", "denied"].includes(item.TrangThai)
-      );
-    }
 
-    // Khi chọn một trạng thái cụ thể
-    if (this.currentTab === "borrowed") {
-      // chọn approved/overdue/returned
-      return this.trackBorrowList.filter(item =>
-        item.TrangThai === this.selectedStatus
-      );
-    } else {
-      // tab require: chọn pending/approved/denied
-      return this.trackBorrowList.filter(item =>
-        item.TrangThai === this.selectedStatus
-      );
-    }
-  }
+      // Khi chọn một trạng thái cụ thể
+      if (this.currentTab === "borrowed") {
+        // chọn approved/overdue/returned
+        return this.trackBorrowList.filter(
+          (item) => item.TrangThai === this.selectedStatus
+        );
+      } else {
+        // tab require: chọn pending/approved/denied
+        return this.trackBorrowList.filter(
+          (item) => item.TrangThai === this.selectedStatus
+        );
+      }
+    },
   },
 };
 </script>
