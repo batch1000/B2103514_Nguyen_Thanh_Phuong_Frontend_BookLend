@@ -3,11 +3,18 @@
     <div class="borrow-book__util">
       <div class="borrow-book__util-search">
         <div class="search-box">
-          <input type="text" placeholder="Tìm kiếm..." class="search-input" />
+          <input
+            type="text"
+            placeholder="Tìm kiếm..."
+            class="search-input"
+            v-model="searchKeyword"
+          />
           <button class="search-button">
             <i class="fas fa-search"></i>
           </button>
         </div>
+
+        <input type="date" class="search-date ml-2" v-model="selectedDate" />
       </div>
 
       <div class="borrow-book__util-all-status">
@@ -212,6 +219,8 @@ export default {
       statusOptions: [],
       trackBorrowList: [],
       selectedStatus: "all",
+      searchKeyword: "",
+      selectedDate: "",
     };
   },
 
@@ -262,6 +271,7 @@ export default {
         console.error("Lỗi khi lấy danh sách mượn:", error);
       }
     },
+
     async approveRequest(id) {
       try {
         await bookService.updateBorrowStatus({
@@ -357,42 +367,77 @@ export default {
         alert("Gia hạn thất bại. Vui lòng thử lại sau.");
       }
     },
+
+    formatDateToYMD(date) {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
   },
 
   computed: {
     filteredTrackBorrowList() {
-      // Mặc định all thì vẫn trả về đầy đủ trackBorrowList
-      if (this.selectedStatus === "all") {
-        // với tab borrowed: chỉ lấy 3 trạng thái đúng
-        if (this.currentTab === "borrowed") {
-          return this.trackBorrowList.filter((item) =>
-            ["approved", "overdue", "returned"].includes(item.TrangThai)
-          );
-        }
-        // với tab require: lấy cả 3 trạng thái của yêu cầu
-        return this.trackBorrowList.filter((item) =>
-          ["pending", "approved", "denied"].includes(item.TrangThai)
-        );
-      }
+      return this.trackBorrowList.filter((item) => {
+        const keyword = this.searchKeyword.toLowerCase().trim();
+        const status = this.selectedStatus;
+        const selectedDate = this.selectedDate;
 
-      // Khi chọn một trạng thái cụ thể
-      if (this.currentTab === "borrowed") {
-        // chọn approved/overdue/returned
-        return this.trackBorrowList.filter(
-          (item) => item.TrangThai === this.selectedStatus
-        );
-      } else {
-        // tab require: chọn pending/approved/denied
-        return this.trackBorrowList.filter(
-          (item) => item.TrangThai === this.selectedStatus
-        );
-      }
+        // ✅ Lọc theo tab hiện tại
+        const validStatusList =
+          this.currentTab === "require"
+            ? ["pending", "approved", "denied"]
+            : ["approved", "overdue", "returned"];
+        if (!validStatusList.includes(item.TrangThai)) return false;
+
+        // ✅ Lọc theo trạng thái nếu không phải "all"
+        if (status !== "all" && item.TrangThai !== status) return false;
+
+        // ✅ Lọc theo keyword nếu có nhập
+        if (keyword) {
+          const hoTen = `${item.MaDocGia?.HoLot || ""} ${
+            item.MaDocGia?.Ten || ""
+          }`.toLowerCase();
+          const maDocGia = item.MaDocGia?.MaDocGia?.toLowerCase() || "";
+          const tenSach = item.MaSach?.TenSach?.toLowerCase() || "";
+
+          const matched =
+            hoTen.includes(keyword) ||
+            maDocGia.includes(keyword) ||
+            tenSach.includes(keyword);
+
+          if (!matched) return false;
+        }
+
+        // ✅ Lọc theo ngày nếu có chọn
+        if (selectedDate) {
+          const targetDate =
+            this.currentTab === "require"
+              ? new Date(item.createdAt)
+              : new Date(item.NgayMuon);
+
+          const formattedTarget = this.formatDateToYMD(targetDate); // yyyy-mm-dd
+          if (formattedTarget !== selectedDate) return false;
+        }
+
+        return true; // Nếu qua hết các điều kiện thì giữ lại
+      });
     },
   },
 };
 </script>
 
 <style scoped>
+.search-date {
+  padding: 10px 15px;
+  font-size: 1.4rem;
+  margin-top: 10px;
+  border-radius: 20px;
+  border: 1px solid #dedede;
+}
+
 .book__admin-navigation-option {
   padding: 11px 20px;
   display: grid;
