@@ -240,32 +240,32 @@ export default {
     },
 
     async lendBook() {
-  if (this.book.SoQuyen === 0) {
-    alert("Sách đã hết!");
-    return;
-  }
+      if (this.book.SoQuyen === 0) {
+        alert("Sách đã hết!");
+        return;
+      }
 
-  if (this.hasBorrowed) {
-    alert("Bạn đã đăng ký mượn sách này rồi!");
-    return;
-  }
+      if (this.hasBorrowed) {
+        alert("Bạn đã đăng ký mượn sách này rồi!");
+        return;
+      }
 
-  try {
-    const data = {
-      MaSach: this.book._id,
-      MaDocGia: userState._id,
-      SoLuongMuon: this.borrowQuantity,
-    };
-    await bookService.lendBook(data);
-    
-    // Reload trạng thái sau khi mượn thành công
-    await this.checkLendStatus();
-    
-    alert(`Đăng ký mượn ${this.borrowQuantity} cuốn sách thành công`);
-  } catch (error) {
-    alert("Đã xảy ra lỗi!");
-  }
-},
+      try {
+        const data = {
+          MaSach: this.book._id,
+          MaDocGia: userState._id,
+          SoLuongMuon: this.borrowQuantity,
+        };
+        await bookService.lendBook(data);
+
+        // Reload trạng thái sau khi mượn thành công
+        await this.checkLendStatus();
+
+        alert(`Đăng ký mượn ${this.borrowQuantity} cuốn sách thành công`);
+      } catch (error) {
+        alert("Đã xảy ra lỗi!");
+      }
+    },
 
     increaseQuantity() {
       if (this.borrowQuantity < this.maxBorrowQuantity) {
@@ -282,31 +282,31 @@ export default {
 
     // Lấy text cho button
     getButtonText() {
-  if (this.book.SoQuyen === 0) {
-    return "Hết Sách";
-  }
-  
-  if (this.hasBorrowed && this.lendInfo) {
-    switch (this.lendInfo.TrangThai) {
-      case 'pending':
-        return "Chờ duyệt";
-      case 'approved':
-        return "Đã duyệt";
-      case 'borrowing':
-        return "Đang mượn";
-      case 'returned':
-        return "Đã trả";
-      case 'overdue':
-        return "Quá hạn";
-      case 'denied':
-        return "Bị từ chối";
-      default:
-        return "Đã gửi yêu cầu";
-    }
-  }
-  
-  return "Mượn Sách";
-},
+      if (this.book.SoQuyen === 0) {
+        return "Hết Sách";
+      }
+
+      if (this.hasBorrowed && this.lendInfo) {
+        switch (this.lendInfo.TrangThai) {
+          case "pending":
+            return "Chờ duyệt";
+          case "approved":
+            return "Đã duyệt";
+          case "borrowing":
+            return "Đang mượn";
+          case "returned":
+            return "Đã trả";
+          case "overdue":
+            return "Quá hạn";
+          case "denied":
+            return "Bị từ chối";
+          default:
+            return "Đã gửi yêu cầu";
+        }
+      }
+
+      return "Mượn Sách";
+    },
 
     async checkLendStatus() {
       try {
@@ -336,18 +336,18 @@ export default {
   },
 
   watch: {
-  id(newId) {
-    if (newId) {
-      this.hasBorrowed = false; // Reset trạng thái
-      this.lendInfo = null;     // Reset thông tin mượn
-      this.fetchBookDetail();
+    id(newId) {
+      if (newId) {
+        this.hasBorrowed = false; // Reset trạng thái
+        this.lendInfo = null; // Reset thông tin mượn
+        this.fetchBookDetail();
 
-      this.$nextTick(() => {
-        window.scrollTo(0, 0);
-      });
-    }
+        this.$nextTick(() => {
+          window.scrollTo(0, 0);
+        });
+      }
+    },
   },
-},
 
   computed: {
     // Tính toán số lượng tối đa có thể mượn (tối đa 3 hoặc bằng SoQuyen nếu ít hơn 3)

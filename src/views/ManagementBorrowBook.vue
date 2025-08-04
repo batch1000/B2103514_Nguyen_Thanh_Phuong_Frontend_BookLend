@@ -70,7 +70,7 @@
             {{ item.MaDocGia?.HoLot }} {{ item.MaDocGia?.Ten }}
           </td>
           <td class="borrow-book__list-require-borrow-content">
-            {{ item.MaSach?.TenSach }}
+            {{ item.MaSach?.TenSach }} ({{ item.SoLuong }} cuốn)
           </td>
           <td class="borrow-book__list-require-borrow-content">
             {{ new Date(item.createdAt).toLocaleDateString("vi-VN") }}
@@ -146,7 +146,7 @@
             {{ item.MaDocGia?.HoLot }} {{ item.MaDocGia?.Ten }}
           </td>
           <td class="borrow-book__list-borrowed-content">
-            {{ item.MaSach?.TenSach }}
+            {{ item.MaSach?.TenSach }} ({{ item.SoLuong }} cuốn)
           </td>
           <td class="borrow-book__list-borrowed-content">
             {{ new Date(item.NgayMuon).toLocaleDateString("vi-VN") }}
