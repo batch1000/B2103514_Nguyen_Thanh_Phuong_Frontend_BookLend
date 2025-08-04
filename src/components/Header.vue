@@ -52,7 +52,11 @@
                   v-for="notif in notifications"
                   :key="notif.id"
                   class="notif-item"
-                  :class="'notif--' + notif.type"
+                  :class="[
+                    'notif-item',
+                    'notif--' + notif.type,
+                    { 'notif--unread': !isReadNotification(notif.id) },
+                  ]"
                 >
                   <!-- icon và nội dung notification -->
                   <div class="notif-item__icon">
@@ -70,7 +74,6 @@
                     ></i>
                     <i v-else class="fa-solid fa-info-circle"></i>
                   </div>
-                  
                   <div class="notif-item__content">
                     <div class="notif-item__title">{{ notif.title }}</div>
                     <div class="notif-item__msg">{{ notif.message }}</div>
@@ -105,21 +108,23 @@ export default {
           id: 1,
           title: "Yêu cầu mượn sách đã được duyệt",
           message: 'Admin đã duyệt cho bạn mượn sách "JavaScript cơ bản"',
-          type: "success",
+          type: "success", // ✅ Đã duyệt
         },
         {
           id: 2,
           title: "Sách quá hạn",
           message: 'Sách "Vue.js từ A-Z" đã quá hạn 3 ngày',
-          type: "error",
+          type: "error", // ❌ Quá hạn
         },
         {
           id: 3,
           title: "Nhắc nhở trả sách",
           message: 'Sách "React Native" sẽ hết hạn vào ngày mai',
-          type: "warning",
+          type: "warning", // ⚠️ Nhắc nhở
         },
       ],
+
+      readNotificationIds: [],
     };
   },
   async mounted() {
@@ -132,6 +137,18 @@ export default {
   },
   methods: {
     handleClickOutside(event) {
+      const notifArea = this.$refs.notifArea;
+      if (notifArea && !notifArea.contains(event.target)) {
+        this.showNotifications = false;
+
+        this.notifications.forEach((notif) => {
+      if (!this.readNotificationIds.includes(notif.id)) {
+        this.readNotificationIds.push(notif.id);
+      }
+    });
+    this.unreadCount = 0;
+      }
+
       const bellArea = this.$refs.bellArea;
 
       if (bellArea && !bellArea.contains(event.target)) {
@@ -154,14 +171,20 @@ export default {
       });
     },
 
+    isReadNotification(notifId) {
+      return this.readNotificationIds.includes(notifId);
+    },
+
     toggleNotifications() {
       this.showNotifications = !this.showNotifications;
-    },
-    handleClickOutside(event) {
-      const notifArea = this.$refs.notifArea;
-      // Nếu click ngoài cả button + dropdown thì đóng
-      if (notifArea && !notifArea.contains(event.target)) {
-        this.showNotifications = false;
+
+      // Nếu vừa đóng dropdown thì đánh dấu là đã đọc
+      if (!this.showNotifications) {
+        this.notifications.forEach((notif) => {
+          if (!this.readNotificationIds.includes(notif.id)) {
+            this.readNotificationIds.push(notif.id);
+          }
+        });
       }
     },
   },

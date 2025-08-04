@@ -51,7 +51,7 @@ export default {
           localStorage.setItem("_id", response._id);
           localStorage.setItem("role", response.role);
           if (response.role === "Admin") {
-            this.$router.push("/homeAdmin/addBook");
+            this.$router.push("/homeAdmin/managementBorrowBook");
           } else {
             this.$router.push("/home");
           }

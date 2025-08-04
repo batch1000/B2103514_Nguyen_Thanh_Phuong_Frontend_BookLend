@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^0.21.4",
     "vue": "^3.0.0",
+    "vue-fragment": "^1.6.0",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {

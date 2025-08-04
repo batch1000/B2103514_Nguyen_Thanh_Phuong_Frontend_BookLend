@@ -35,5 +35,14 @@ export const bookService = {
 
     async getInfoLendBook(data) {
         return apiService.post('book/getInfoLendBook', data);
+    },
+
+    async getTrackBorrowBook() {
+        const response = await apiService.get('book/getTrackBorrowBook');
+        return response;
+    },
+      
+    async updateBorrowStatus(data) {
+        return apiService.post('book/updateBorrowStatus', data);
     }
 };

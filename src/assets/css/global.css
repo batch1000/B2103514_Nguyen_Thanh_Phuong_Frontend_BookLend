@@ -84,7 +84,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px;
+    gap: 20px;
     font-size: 2.4rem;
 }
 
@@ -314,6 +314,9 @@ button {
 
 
 /*Notification*/
+.notif--unread {
+    background-color: #e8f0fe; /* Màu nền nhạt để làm nổi bật */
+}
 .util-btn {
     background: none;
     border: none;
@@ -321,6 +324,10 @@ button {
     padding: 8px;
     font-size: 18px;
     
+}
+
+.util-btn .fa-bell {
+    font-size: 2.4rem;
 }
 
 .util-btn .fa-bell:hover {
@@ -420,3 +427,5 @@ button {
     background-color: #f0f0f0;
     cursor: pointer;
 }
+
+

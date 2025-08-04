@@ -11,16 +11,16 @@
       </div>
 
       <div class="borrow-book__util-all-status">
-  <select class="status-select">
-    <option
-      v-for="option in statusOptions"
-      :key="option.value"
-      :value="option.value"
-    >
-      {{ option.text }}
-    </option>
-  </select>
-</div>
+        <select class="status-select" v-model="selectedStatus">
+          <option
+            v-for="option in statusOptions"
+            :key="option.value"
+            :value="option.value"
+          >
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div class="borrow-book__tabs">
@@ -40,167 +40,265 @@
       </div>
     </div>
 
-    <div class="borrow-book__list-require-borrow mt-4" v-if="currentTab === 'require'">
-      <div class="borrow-book__list-require-borrow-title">Mã Độc Giả</div>
-      <div class="borrow-book__list-require-borrow-title">Độc Giả</div>
-      <div class="borrow-book__list-require-borrow-title">Sách</div>
-      <div class="borrow-book__list-require-borrow-title">Ngày Yêu Cầu</div>
-      <div class="borrow-book__list-require-borrow-title">Hạn trả</div>
-      <div class="borrow-book__list-require-borrow-title">Trạng thái</div>
-      <div class="borrow-book__list-require-borrow-title">Xử Lý</div>
+    <table
+      class="borrow-book__list-require-borrow mt-4 table w-100"
+      v-if="currentTab === 'require'"
+    >
+      <thead>
+        <tr>
+          <th class="borrow-book__list-require-borrow-title">Mã Độc Giả</th>
+          <th class="borrow-book__list-require-borrow-title">Độc Giả</th>
+          <th class="borrow-book__list-require-borrow-title">Sách</th>
+          <th class="borrow-book__list-require-borrow-title">Ngày Yêu Cầu</th>
+          <th class="borrow-book__list-require-borrow-title">Trạng thái</th>
+          <th class="borrow-book__list-require-borrow-title">Xử Lý</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in filteredTrackBorrowList" :key="item._id">
+          <td class="borrow-book__list-require-borrow-content">
+            {{ item.MaDocGia?.MaDocGia }}
+          </td>
+          <td class="borrow-book__list-require-borrow-content">
+            {{ item.MaDocGia?.HoLot }} {{ item.MaDocGia?.Ten }}
+          </td>
+          <td class="borrow-book__list-require-borrow-content">
+            {{ item.MaSach?.TenSach }}
+          </td>
+          <td class="borrow-book__list-require-borrow-content">
+            {{ new Date(item.createdAt).toLocaleDateString("vi-VN") }}
+          </td>
+          <td class="borrow-book__list-require-borrow-content">
+            <div
+              :class="{
+                'borrow-book__list-require-borrow-status-waiting':
+                  item.TrangThai === 'pending',
+                'borrow-book__list-require-borrow-status-approved':
+                  item.TrangThai === 'approved',
+                'borrow-book__list-require-borrow-status-denied':
+                  item.TrangThai === 'denied',
+              }"
+            >
+              {{
+                item.TrangThai === "pending"
+                  ? "Chờ Duyệt"
+                  : item.TrangThai === "approved"
+                  ? "Đã Duyệt"
+                  : "Đã Từ Chối"
+              }}
+            </div>
+          </td>
+          <td class="borrow-book__list-require-borrow-content">
+            <template v-if="item.TrangThai === 'pending'">
+              <button
+                type="button"
+                class="borrow-book__list-require-borrow-btn-accept"
+                @click="approveRequest(item._id)"
+              >
+                Duyệt
+              </button>
+              <button
+                type="button"
+                class="borrow-book__list-require-borrow-deny"
+                @click="denyRequest(item._id)"
+              >
+                Từ chối
+              </button>
+            </template>
+            <template v-else>
+              <div class="borrow-book__list-require-borrow-btn-done">
+                Đã xử lý
+              </div>
+            </template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-      <div class="borrow-book__list-require-borrow-content">D001</div>
-      <div class="borrow-book__list-require-borrow-content">Nguyễn Văn A</div>
-      <div class="borrow-book__list-require-borrow-content">Nhà Giả Kim</div>
-      <div class="borrow-book__list-require-borrow-content">01/01/1999</div>
-      <div class="borrow-book__list-require-borrow-content">01/01/1999</div>
-      <div class="borrow-book__list-require-borrow-content">
-        <div class="borrow-book__list-require-borrow-status-waiting">
-          Chờ Duyệt
-        </div>
+    <table
+      class="borrow-book__list-borrowed mt-4 table w-100"
+      v-if="currentTab === 'borrowed'"
+    >
+      <thead>
+        <tr>
+          <th class="borrow-book__list-borrowed-title">Mã Độc Giả</th>
+          <th class="borrow-book__list-borrowed-title">Độc Giả</th>
+          <th class="borrow-book__list-borrowed-title">Sách</th>
+          <th class="borrow-book__list-borrowed-title">Ngày Mượn</th>
+          <th class="borrow-book__list-borrowed-title">Hạn Trả</th>
+          <th class="borrow-book__list-borrowed-title">Tình Trạng</th>
+          <th class="borrow-book__list-borrowed-title">Thao Tác</th>
+        </tr>
+      </thead>
+      <tbody>
+  <tr v-for="item in filteredTrackBorrowList" :key="item._id">
+    <td class="borrow-book__list-borrowed-content">
+      {{ item.MaDocGia?.MaDocGia }}
+    </td>
+    <td class="borrow-book__list-borrowed-content">
+      {{ item.MaDocGia?.HoLot }} {{ item.MaDocGia?.Ten }}
+    </td>
+    <td class="borrow-book__list-borrowed-content">
+      {{ item.MaSach?.TenSach }}
+    </td>
+    <td class="borrow-book__list-borrowed-content">
+      {{ new Date(item.NgayMuon).toLocaleDateString("vi-VN") }}
+    </td>
+    <td class="borrow-book__list-borrowed-content">
+      {{ new Date(item.NgayTra).toLocaleDateString("vi-VN") }}
+    </td>
+    <td class="borrow-book__list-borrowed-content">
+      <div
+        :class="{
+          'borrow-book__list-borrowed-status-borrowing': item.TrangThai === 'approved',
+          'borrow-book__list-borrowed-status-overdue':  item.TrangThai === 'overdue',
+          'borrow-book__list-borrowed-status-returned': item.TrangThai === 'returned',
+        }"
+      >
+        {{
+          item.TrangThai === 'approved'
+            ? 'Đang Mượn'
+            : item.TrangThai === 'overdue'
+            ? 'Quá Hạn'
+            : 'Đã Trả'
+        }}
       </div>
-      <div class="borrow-book__list-require-borrow-content">
-        <button
-          type="button"
-          class="borrow-book__list-require-borrow-btn-accept"
-        >
-          Duyệt
-        </button>
-        <button type="button" class="borrow-book__list-require-borrow-deny">
-          Từ chối
-        </button>
-      </div>
-
-      <div class="borrow-book__list-require-borrow-content">D001</div>
-      <div class="borrow-book__list-require-borrow-content">Nguyễn Văn A</div>
-      <div class="borrow-book__list-require-borrow-content">Nhà Giả Kim</div>
-      <div class="borrow-book__list-require-borrow-content">01/01/1999</div>
-      <div class="borrow-book__list-require-borrow-content">01/01/1999</div>
-      <div class="borrow-book__list-require-borrow-content">
-        <div class="borrow-book__list-require-borrow-status-approved">
-          Đã Duyệt
-        </div>
-      </div>
-      <div class="borrow-book__list-require-borrow-content">
-        <div class="borrow-book__list-require-borrow-btn-done">Đã xử lý</div>
-      </div>
-
-      <div class="borrow-book__list-require-borrow-content">D001</div>
-      <div class="borrow-book__list-require-borrow-content">Nguyễn Văn A</div>
-      <div class="borrow-book__list-require-borrow-content">Nhà Giả Kim</div>
-      <div class="borrow-book__list-require-borrow-content">01/01/1999</div>
-      <div class="borrow-book__list-require-borrow-content">01/01/1999</div>
-      <div class="borrow-book__list-require-borrow-content">
-        <div class="borrow-book__list-require-borrow-status-denied">
-          Đã Từ Chối
-        </div>
-      </div>
-      <div class="borrow-book__list-require-borrow-content">
-        <div class="borrow-book__list-require-borrow-btn-done">Đã xử lý</div>
-      </div>
-    </div>
-
-    <div class="borrow-book__list-borrowed mt-4" v-if="currentTab === 'borrowed'">
-      <!-- Tiêu đề các cột -->
-      <div class="borrow-book__list-borrowed-title">Mã Độc Giả</div>
-      <div class="borrow-book__list-borrowed-title">Độc Giả</div>
-      <div class="borrow-book__list-borrowed-title">Sách</div>
-      <div class="borrow-book__list-borrowed-title">Ngày Mượn</div>
-      <div class="borrow-book__list-borrowed-title">Hạn Trả</div>
-      <div class="borrow-book__list-borrowed-title">Tình Trạng</div>
-      <div class="borrow-book__list-borrowed-title">Thao Tác</div>
-
-      <!-- Dòng dữ liệu 1: Sách đang mượn -->
-      <div class="borrow-book__list-borrowed-content">D002</div>
-      <div class="borrow-book__list-borrowed-content">Trần Thị B</div>
-      <div class="borrow-book__list-borrowed-content">Đắc Nhân Tâm</div>
-      <div class="borrow-book__list-borrowed-content">15/07/2023</div>
-      <div class="borrow-book__list-borrowed-content">30/07/2023</div>
-      <div class="borrow-book__list-borrowed-content">
-        <div class="borrow-book__list-borrowed-status-borrowing">Đang Mượn</div>
-      </div>
-      <div class="borrow-book__list-borrowed-content">
+    </td>
+    <td class="borrow-book__list-borrowed-content">
+      <template v-if="item.TrangThai === 'approved' || item.TrangThai === 'overdue'">
         <button type="button" class="borrow-book__list-borrowed-btn-return">
           Đã trả
         </button>
         <button type="button" class="borrow-book__list-borrowed-btn-extend">
           Gia hạn
         </button>
-      </div>
-
-      <!-- Dòng dữ liệu 2: Sách quá hạn -->
-      <div class="borrow-book__list-borrowed-content">D003</div>
-      <div class="borrow-book__list-borrowed-content">Lê Văn C</div>
-      <div class="borrow-book__list-borrowed-content">
-        Tuổi Trẻ Đáng Giá Bao Nhiêu
-      </div>
-      <div class="borrow-book__list-borrowed-content">01/07/2023</div>
-      <div class="borrow-book__list-borrowed-content">15/07/2023</div>
-      <div class="borrow-book__list-borrowed-content">
-        <div class="borrow-book__list-borrowed-status-overdue">Quá Hạn</div>
-      </div>
-      <div class="borrow-book__list-borrowed-content">
-        <button type="button" class="borrow-book__list-borrowed-btn-return">
-          Đã trả
-        </button>
-      </div>
-
-      <!-- Dòng dữ liệu 3: Sách đã trả -->
-      <div class="borrow-book__list-borrowed-content">D004</div>
-      <div class="borrow-book__list-borrowed-content">Phạm Thị D</div>
-      <div class="borrow-book__list-borrowed-content">Nhà Giả Kim</div>
-      <div class="borrow-book__list-borrowed-content">10/06/2023</div>
-      <div class="borrow-book__list-borrowed-content">25/06/2023</div>
-      <div class="borrow-book__list-borrowed-content">
-        <div class="borrow-book__list-borrowed-status-returned">Đã Trả</div>
-      </div>
-      <div class="borrow-book__list-borrowed-content">
-        <div class="borrow-book__list-borrowed-btn-completed">Hoàn thành</div>
-      </div>
-    </div>
+      </template>
+      <template v-else>
+        <div class="borrow-book__list-borrowed-btn-completed">
+          Hoàn thành
+        </div>
+      </template>
+    </td>
+  </tr>
+</tbody>
+    </table>
   </div>
 </template>
 
 <script>
+import { bookService } from "../services/book/book.service";
+import { userState } from "../assets/js/userState";
+
 export default {
   name: "ManagementBorrowBook",
   data() {
     return {
       currentTab: "require",
-      statusOptions: []
+      statusOptions: [],
+      trackBorrowList: [],
+      selectedStatus: "all",
     };
   },
 
   watch: {
     currentTab(newVal) {
-      if (newVal === 'require') {
+      if (newVal === "require") {
         this.statusOptions = [
-          { value: 'all', text: 'Tất cả trạng thái' },
-          { value: 'waiting', text: 'Chờ duyệt' },
-          { value: 'approved', text: 'Đã duyệt' },
-          { value: 'denied', text: 'Từ chối' }
+          { value: "all", text: "Tất cả trạng thái" },
+          { value: "pending", text: "Chờ duyệt" },
+          { value: "approved", text: "Đã duyệt" },
+          { value: "denied", text: "Từ chối" },
         ];
-      } else if (newVal === 'borrowed') {
+      } else if (newVal === "borrowed") {
         this.statusOptions = [
-          { value: 'all', text: 'Tất cả trạng thái' },
-          { value: 'borrowing', text: 'Đang Mượn' },
-          { value: 'overdue', text: 'Quá Hạn' },
-          { value: 'returned', text: 'Đã Trả' }
+          { value: "all", text: "Tất cả trạng thái" },
+          { value: "approved", text: "Đang Mượn" },
+          { value: "overdue", text: "Quá Hạn" },
+          { value: "returned", text: "Đã Trả" },
         ];
       }
-    }
+    },
   },
 
   mounted() {
     this.statusOptions = [
-      { value: 'all', text: 'Tất cả trạng thái' },
-      { value: 'waiting', text: 'Chờ duyệt' },
-      { value: 'approved', text: 'Đã duyệt' },
-      { value: 'denied', text: 'Từ chối' }
+      { value: "all", text: "Tất cả trạng thái" },
+      { value: "pending", text: "Chờ duyệt" },
+      { value: "approved", text: "Đã duyệt" },
+      { value: "denied", text: "Từ chối" },
     ];
-  }
-};
 
+    this.fetchTrackBorrowList();
+  },
+
+  methods: {
+    async fetchTrackBorrowList() {
+      try {
+        const response = await bookService.getTrackBorrowBook();
+        this.trackBorrowList = response || [];
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách mượn:", error);
+      }
+    },
+
+    async approveRequest(id) {
+      try {
+        await bookService.updateBorrowStatus({
+          requestId: id,
+          adminId: userState._id,
+          status: "approved",
+        });
+        this.fetchTrackBorrowList();
+      } catch (err) {
+        console.error("Lỗi duyệt yêu cầu:", err);
+      }
+    },
+
+    async denyRequest(id) {
+      try {
+        await bookService.updateBorrowStatus({
+          requestId: id,
+          adminId: userState._id,
+          status: "denied",
+        });
+        this.fetchTrackBorrowList();
+      } catch (err) {
+        console.error("Lỗi từ chối yêu cầu:", err);
+      }
+    },
+  },
+
+  computed: {
+    filteredTrackBorrowList() {
+    // Mặc định all thì vẫn trả về đầy đủ trackBorrowList
+    if (this.selectedStatus === "all") {
+      // với tab borrowed: chỉ lấy 3 trạng thái đúng
+      if (this.currentTab === "borrowed") {
+        return this.trackBorrowList.filter(item =>
+          ["approved", "overdue", "returned"].includes(item.TrangThai)
+        );
+      }
+      // với tab require: lấy cả 3 trạng thái của yêu cầu
+      return this.trackBorrowList.filter(item =>
+        ["pending", "approved", "denied"].includes(item.TrangThai)
+      );
+    }
+
+    // Khi chọn một trạng thái cụ thể
+    if (this.currentTab === "borrowed") {
+      // chọn approved/overdue/returned
+      return this.trackBorrowList.filter(item =>
+        item.TrangThai === this.selectedStatus
+      );
+    } else {
+      // tab require: chọn pending/approved/denied
+      return this.trackBorrowList.filter(item =>
+        item.TrangThai === this.selectedStatus
+      );
+    }
+  }
+  },
+};
 </script>
 
 <style scoped>
@@ -293,11 +391,6 @@ export default {
   overflow: hidden;
 }
 
-.borrow-book__list-require-borrow {
-  display: grid;
-  grid-template-columns: 120px repeat(6, 1fr);
-}
-
 .borrow-book__list-require-borrow-title {
   padding: 5px;
   font-size: 1.7rem;
@@ -310,9 +403,8 @@ export default {
   font-size: 1.7rem;
   border-bottom: 1px solid #dfe2e6;
   font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .borrow-book__list-require-borrow-status-waiting {
@@ -373,6 +465,7 @@ export default {
   background-color: #c0392b;
   color: #fff;
   border-radius: 7px;
+  margin-left: 8px;
 }
 
 .borrow-book__list-require-borrow-deny:hover {
@@ -382,8 +475,7 @@ export default {
 .borrow-book__list-require-borrow-btn-done {
   padding: 5px 10px;
   font-size: 1.2rem;
-  min-width: 80px;
-  min-height: 30px;
+  width: 96px;
   background-color: #fff;
   color: #a1a6ab;
   border: 1px solid #a1a6ab;
@@ -504,20 +596,14 @@ export default {
   background-color: #f0f9f7;
 }
 
-/* Tái sử dụng các class cũ (đổi tên) */
-.borrow-book__list-borrowed {
-  display: grid;
-  grid-template-columns: 120px repeat(6, 1fr); /* Giữ nguyên 7 cột */
-}
-
 .borrow-book__list-borrowed-title,
 .borrow-book__list-borrowed-content {
   padding: 5px;
   font-size: 1.7rem;
   border-bottom: 1px solid #dfe2e6;
   font-weight: bold; /* Title vẫn bold */
-  display: flex;
-  align-items: center;
+  display: table-cell; /* ✅ DÙNG CHUẨN TRONG TABLE */
+  vertical-align: middle;
   gap: 10px;
 }
 
@@ -585,6 +671,7 @@ export default {
   background-color: #f39c12; /* Màu cam */
   color: #fff;
   border-radius: 7px;
+  margin-left: 8px;
 }
 
 .borrow-book__list-borrowed-btn-extend:hover {
@@ -594,8 +681,7 @@ export default {
 .borrow-book__list-borrowed-btn-completed {
   padding: 5px 10px;
   font-size: 1.2rem;
-  min-width: 80px;
-  min-height: 30px;
+  width: 96px;
   background-color: #fff;
   color: #a1a6ab;
   border: 1px solid #a1a6ab;
