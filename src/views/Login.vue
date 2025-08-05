@@ -50,6 +50,11 @@ export default {
         if (response) {
           localStorage.setItem("_id", response._id);
           localStorage.setItem("role", response.role);
+
+          if (response.hoTen) {
+            localStorage.setItem("hoTen", response.hoTen);
+          }
+
           if (response.role === "Admin") {
             this.$router.push("/homeAdmin/managementBorrowBook");
           } else {
