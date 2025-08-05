@@ -16,11 +16,13 @@
             </div>
 
             <div class="book__library-list-toolbar-sort">
-              <label for="sort">Sắp xếp:</label>
+              <label for="sort">Lọc theo trạng thái:</label>
               <select id="sort" v-model="sortOption">
-                <option value="popular">Phổ biến nhất</option>
-                <option value="new">Mới nhất</option>
-                <option value="title">Tên sách (A–Z)</option>
+                <option value="all">Tất cả</option>
+                <option value="approved">Đang mượn</option>
+                <option value="returned">Đã trả</option>
+                <option value="overdue">Quá hạn</option>
+                <option value="denied">Bị từ chối</option>
               </select>
             </div>
           </div>
@@ -183,7 +185,7 @@ export default {
       books: [],
       currentPage: 1,
       pageSize: 12,
-      sortOption: "popular",
+      sortOption: "all",
       searchKeyword: "",
     };
   },
@@ -257,19 +259,32 @@ export default {
     },
 
     sortedBooks() {
+      let filtered = this.filteredBooks;
+
+      // Lọc theo trạng thái mượn
+      if (
+        this.sortOption !== "all" &&
+        !["new", "title"].includes(this.sortOption)
+      ) {
+        filtered = filtered.filter(
+          (book) => book.TrangThai === this.sortOption
+        );
+      }
+
+      // Sắp xếp theo tiêu chí
       if (this.sortOption === "new") {
-        return [...this.filteredBooks].sort(
+        return [...filtered].sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
       } else if (this.sortOption === "title") {
-        return [...this.filteredBooks].sort((a, b) =>
+        return [...filtered].sort((a, b) =>
           a.MaSach.TenSach.localeCompare(b.MaSach.TenSach, "vi", {
             sensitivity: "base",
           })
         );
-      } else {
-        return this.filteredBooks;
       }
+
+      return filtered;
     },
 
     paginatedBooks() {
@@ -576,8 +591,6 @@ export default {
   background-color: #f9f9f9;
   cursor: not-allowed;
 }
-
-
 
 /* Thông tin số lượng */
 .book__library-list-book-element-quantity {
