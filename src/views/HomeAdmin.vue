@@ -87,11 +87,10 @@ import { userState } from "../assets/js/userState";
 
 export default {
   name: "HomeAdmin",
-  components: {
-  },
-   data() {
+  components: {},
+  data() {
     return {
-      userState
+      userState,
     };
   },
   methods: {
@@ -101,10 +100,14 @@ export default {
       localStorage.removeItem("role");
       localStorage.removeItem("hoTen");
 
+      this.userState._id = null;
+      this.userState.role = null;
+      this.userState.hoTen = null;
+
       // Chuyển hướng về trang login
       this.$router.push("/login");
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -102,7 +102,9 @@
             type="button"
             class="detailbook__information-book-btn-borrow"
             :class="{
-              'borrowed-success': hasBorrowed,
+              'btn-overdue': lendInfo?.TrangThai === 'overdue',
+              'borrowed-success':
+                hasBorrowed && lendInfo?.TrangThai !== 'overdue',
               'out-of-stock': book.SoQuyen === 0,
             }"
             @click="lendBook"
@@ -291,8 +293,6 @@ export default {
           case "pending":
             return "Chờ duyệt";
           case "approved":
-            return "Đã duyệt";
-          case "borrowing":
             return "Đang mượn";
           case "returned":
             return "Đã trả";
@@ -317,9 +317,9 @@ export default {
 
         if (
           response &&
-          (response.TrangThai === "pending" ||
-            response.TrangThai === "approved" ||
-            response.TrangThai === "borrowing")
+          ["pending", "approved", "borrowing", "overdue"].includes(
+            response.TrangThai?.toLowerCase()
+          )
         ) {
           this.hasBorrowed = true;
           this.lendInfo = response;
@@ -360,6 +360,12 @@ export default {
 </script>
 
 <style scoped>
+.btn-overdue {
+  background-color: #e74c3c !important;
+  color: white !important;
+  border: none !important;
+}
+
 .out-of-stock {
   background-color: #95a5a6 !important;
   color: white !important;

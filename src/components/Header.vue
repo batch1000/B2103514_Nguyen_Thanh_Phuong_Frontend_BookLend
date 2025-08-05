@@ -26,12 +26,21 @@
           <router-link to="/library" class="book__header-link"
             >Library</router-link
           >
-          <a href="#" class="book__header-link">My books</a>
+          <router-link to="/myBook" class="book__header-link">My books</router-link>
         </div>
 
         <div class="book__header-unity-bar">
           <div class="book__header-my-account">
             <i class="fa-regular fa-circle-user"></i>
+            <span class="book__header-name-user">{{
+              userState.hoTen || "User"
+            }}</span>
+
+            <div class="book__header-dropdown">
+              <div class="book__header-logout" @click="handleLogout">
+                Đăng xuất
+              </div>
+            </div>
           </div>
 
           <div class="util-btn util-btn--notif-wrapper" ref="notifArea">
@@ -82,10 +91,6 @@
               </ul>
             </div>
           </div>
-
-          <div class="book__header-search-book">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div>
         </div>
       </div>
     </div>
@@ -95,11 +100,13 @@
 
 <script>
 import { bookService } from "../services/book/book.service";
+import { userState } from "../assets/js/userState";
 
 export default {
   name: "Header",
   data() {
     return {
+      userState,
       genres: [],
       showNotifications: false,
       unreadCount: 3,
@@ -136,17 +143,30 @@ export default {
     document.removeEventListener("click", this.handleClickOutside);
   },
   methods: {
+    handleLogout() {
+      // Xóa localStorage
+      localStorage.removeItem("_id");
+      localStorage.removeItem("role");
+      localStorage.removeItem("hoTen");
+
+      this.userState._id = null;
+      this.userState.role = null;
+      this.userState.hoTen = null;
+
+      // Chuyển hướng về trang đăng nhập
+      this.$router.push("/login");
+    },
     handleClickOutside(event) {
       const notifArea = this.$refs.notifArea;
       if (notifArea && !notifArea.contains(event.target)) {
         this.showNotifications = false;
 
         this.notifications.forEach((notif) => {
-      if (!this.readNotificationIds.includes(notif.id)) {
-        this.readNotificationIds.push(notif.id);
-      }
-    });
-    this.unreadCount = 0;
+          if (!this.readNotificationIds.includes(notif.id)) {
+            this.readNotificationIds.push(notif.id);
+          }
+        });
+        this.unreadCount = 0;
       }
 
       const bellArea = this.$refs.bellArea;

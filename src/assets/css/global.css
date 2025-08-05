@@ -315,15 +315,17 @@ button {
 
 /*Notification*/
 .notif--unread {
-    background-color: #e8f0fe; /* Màu nền nhạt để làm nổi bật */
+    background-color: #e8f0fe;
+    /* Màu nền nhạt để làm nổi bật */
 }
+
 .util-btn {
     background: none;
     border: none;
     position: relative;
     padding: 8px;
     font-size: 18px;
-    
+
 }
 
 .util-btn .fa-bell {
@@ -428,4 +430,44 @@ button {
     cursor: pointer;
 }
 
+.book__header-my-account {
+    display: flex;
+    align-items: center;
+}
 
+.book__header-name-user {
+    font-size: 1.7rem;
+    margin-left: 5px;
+}
+
+
+.book__header-my-account {
+    position: relative;
+    cursor: pointer;
+}
+
+.book__header-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    min-width: 120px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.book__header-logout {
+    padding: 8px 10px;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.book__header-logout:hover {
+    background-color: #f2f2f2;
+}
+
+.book__header-my-account:hover .book__header-dropdown {
+    display: block;
+}

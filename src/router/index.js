@@ -56,6 +56,11 @@ const routes = [
     props: true
   },
   {
+    path: '/myBook',
+    name: 'MyBook',
+    component: () => import('../views/MyBook.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../views/NotFound.vue')
