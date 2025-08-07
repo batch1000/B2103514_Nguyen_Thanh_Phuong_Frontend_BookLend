@@ -2,35 +2,35 @@
   <div class="signup">
     <form class="signup-form" action="">
       <div class="signup-form-input-group">
-        <div class="signup-form-title">Sign Up</div>
+        <div class="signup-form-title">Đăng ký</div>
 
         <div class="signup-form-input">
           <div class="signup-form-double-row">
             <div class="signup-form-wrapper">
-              <div class="signup-form-input-title">First Name</div>
+              <div class="signup-form-input-title">Họ lót</div>
               <input type="text" v-model="firstName" />
             </div>
 
             <div class="signup-form-wrapper">
-              <div class="signup-form-input-title">Last Name</div>
+              <div class="signup-form-input-title">Tên</div>
               <input type="text" v-model="lastName" />
             </div>
           </div>
 
           <div class="signup-form-double-row">
             <div class="signup-form-wrapper">
-              <div class="signup-form-input-title">Birthday</div>
+              <div class="signup-form-input-title">Ngày sinh</div>
               <input type="date" v-model="birthDate" />
             </div>
 
             <div class="signup-form-wrapper">
-              <div class="signup-form-input-title">Gender</div>
+              <div class="signup-form-input-title">Giới tính</div>
               <div class="signup-form-input-radio">
                 <label
-                  ><input type="radio" name="gender" value="male" v-model="gender" /> Male</label
+                  ><input type="radio" name="gender" value="male" v-model="gender" /> Nam</label
                 >
                 <label
-                  ><input type="radio" name="gender" value="female" v-model="gender" /> Female</label
+                  ><input type="radio" name="gender" value="female" v-model="gender" /> Nữ</label
                 >
               </div>
             </div>
@@ -38,42 +38,42 @@
 
           <div class="signup-form-double-row">
             <div class="signup-form-wrapper">
-              <div class="signup-form-input-title">Phone Number</div>
+              <div class="signup-form-input-title">Số điện thoại</div>
               <input type="text" v-model="phoneNumber" />
             </div>
 
             <div class="signup-form-wrapper">
-              <div class="signup-form-input-title">Address</div>
+              <div class="signup-form-input-title">Địa chỉ</div>
               <input type="text" v-model="address" />
             </div>
           </div>
 
           <div class="signup-form-wrapper">
-            <div class="signup-form-input-title">Username</div>
+            <div class="signup-form-input-title">Tên đăng nhập</div>
             <input type="text" v-model="username" />
           </div>
 
           <div class="signup-form-double-row">
             <div class="signup-form-wrapper">
-              <div class="signup-form-input-title">Password</div>
+              <div class="signup-form-input-title">Mật khẩu</div>
               <input type="password" v-model="password" />
             </div>
 
             <div class="signup-form-wrapper">
-              <div class="signup-form-input-title">Confirm Password</div>
+              <div class="signup-form-input-title">Nhập lại mật khẩu</div>
               <input type="password" v-model="confirmPassword" />
             </div>
           </div>
         </div>
 
         <div class="signup-form-btn">
-          <button type="button" @click="handleSignup">Sign Up</button>
+          <button type="button" @click="handleSignup">Đăng ký</button>
         </div>
       </div>
 
       <div class="signup-form-navigation-login">
-        Already have an account?
-        <router-link to="/"><span>Log In.</span></router-link>
+        Bạn đã có tài khoản?
+        <router-link to="/"><span>Đăng nhập</span></router-link>
       </div>
     </form>
   </div>

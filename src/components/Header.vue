@@ -7,10 +7,10 @@
         </div>
 
         <div class="book__header-navigation">
-          <router-link to="/home" class="book__header-link">Home</router-link>
+          <router-link to="/home" class="book__header-link">Trang chủ</router-link>
 
           <div class="book__dropdown-catagories">
-            <a href="#" class="book__header-link">Categories</a>
+            <a href="#" class="book__header-link">Thể loại</a>
             <div class="book__dropdown-catagories-menu">
               <a
                 href="#"
@@ -24,9 +24,9 @@
           </div>
 
           <router-link to="/library" class="book__header-link"
-            >Library</router-link
+            >Thư viện</router-link
           >
-          <router-link to="/myBook" class="book__header-link">My books</router-link>
+          <router-link to="/myBook" class="book__header-link">Sách của tôi</router-link>
         </div>
 
         <div class="book__header-unity-bar">

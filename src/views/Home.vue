@@ -64,7 +64,7 @@
 
     <div class="home__popular-book">
       <div class="home__book-header">
-        <div class="home__book-header-title">Popular Books</div>
+        <div class="home__book-header-title">Sách Phổ Biến</div>
         <div class="home__book-line">
           <div class="line"></div>
         </div>
@@ -101,16 +101,16 @@
               <div class="rating">
                 <span class="star filled">★</span>
                 <span class="star filled">★</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
               </div>
             </div>
           </div>
 
           <div class="col-lg-2 home__feature-book-element">
             <div class="home__feature-book-element-image">
-              <img src="/image/popularbook.jpg" alt="" />
+              <img src="/image/Giet_Con_Chim_Nhai.jpg" alt="" />
 
               <div class="home__book-action-icon">
                 <div class="home__book-action-favorite-icon">
@@ -129,24 +129,22 @@
 
             <div class="home__feature-book-element-information">
               <div class="home__feature-book-element-title">
-                The Secret Deep
+                Giết con chim nhại
               </div>
-              <div class="home__feature-book-element-author">
-                LindSay Galvin
-              </div>
+              <div class="home__feature-book-element-author">Harper Lee</div>
               <div class="rating">
                 <span class="star filled">★</span>
                 <span class="star filled">★</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
               </div>
             </div>
           </div>
 
           <div class="col-lg-2 home__feature-book-element">
             <div class="home__feature-book-element-image">
-              <img src="/image/popularbook.jpg" alt="" />
+              <img src="/image/Canh_Dong_Bat_Tan.jpg" alt="" />
 
               <div class="home__book-action-icon">
                 <div class="home__book-action-favorite-icon">
@@ -165,24 +163,56 @@
 
             <div class="home__feature-book-element-information">
               <div class="home__feature-book-element-title">
-                The Secret Deep
+                Cánh đồng bất tận
               </div>
               <div class="home__feature-book-element-author">
-                LindSay Galvin
+                Nguyễn Ngọc Tư
               </div>
               <div class="rating">
                 <span class="star filled">★</span>
                 <span class="star filled">★</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
               </div>
             </div>
           </div>
 
           <div class="col-lg-2 home__feature-book-element">
             <div class="home__feature-book-element-image">
-              <img src="/image/popularbook.jpg" alt="" />
+              <img src="/image/Tho_Han_Mac_Tu.jpg" alt="" />
+
+              <div class="home__book-action-icon">
+                <div class="home__book-action-favorite-icon">
+                  <i class="fa-regular fa-heart"></i>
+                </div>
+
+                <div class="home__book-action-preview-icon">
+                  <i class="fa-regular fa-eye"></i>
+                </div>
+
+                <div class="home__book-action-borrow-icon">
+                  <i class="fa-solid fa-book-medical"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="home__feature-book-element-information">
+              <div class="home__feature-book-element-title">Thơ Hàn Mặc Tử</div>
+              <div class="home__feature-book-element-author">Hàn Mặc Tử</div>
+              <div class="rating">
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 home__feature-book-element">
+            <div class="home__feature-book-element-image">
+              <img src="/image/Toi_Thay_Hoa_Vang_Tren_Co_Xanh.jpg" alt="" />
 
               <div class="home__book-action-icon">
                 <div class="home__book-action-favorite-icon">
@@ -201,24 +231,24 @@
 
             <div class="home__feature-book-element-information">
               <div class="home__feature-book-element-title">
-                The Secret Deep
+                Tôi thấy hoa vàng trên ...
               </div>
               <div class="home__feature-book-element-author">
-                LindSay Galvin
+                Nguyễn Nhật Ánh
               </div>
               <div class="rating">
                 <span class="star filled">★</span>
                 <span class="star filled">★</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
               </div>
             </div>
           </div>
 
           <div class="col-lg-2 home__feature-book-element">
             <div class="home__feature-book-element-image">
-              <img src="/image/popularbook.jpg" alt="" />
+              <img src="/image/Mat_biec.jpg" alt="" />
 
               <div class="home__book-action-icon">
                 <div class="home__book-action-favorite-icon">
@@ -237,53 +267,17 @@
 
             <div class="home__feature-book-element-information">
               <div class="home__feature-book-element-title">
-                The Secret Deep
+                Mắt biếc
               </div>
               <div class="home__feature-book-element-author">
-                LindSay Galvin
+                Nguyễn Nhật Ánh
               </div>
               <div class="rating">
                 <span class="star filled">★</span>
                 <span class="star filled">★</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-2 home__feature-book-element">
-            <div class="home__feature-book-element-image">
-              <img src="/image/popularbook.jpg" alt="" />
-
-              <div class="home__book-action-icon">
-                <div class="home__book-action-favorite-icon">
-                  <i class="fa-regular fa-heart"></i>
-                </div>
-
-                <div class="home__book-action-preview-icon">
-                  <i class="fa-regular fa-eye"></i>
-                </div>
-
-                <div class="home__book-action-borrow-icon">
-                  <i class="fa-solid fa-book-medical"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="home__feature-book-element-information">
-              <div class="home__feature-book-element-title">
-                The Secret Deep
-              </div>
-              <div class="home__feature-book-element-author">
-                LindSay Galvin
-              </div>
-              <div class="rating">
                 <span class="star filled">★</span>
                 <span class="star filled">★</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
-                <span class="star">☆</span>
+                <span class="star filled">★</span>
               </div>
             </div>
           </div>
@@ -296,7 +290,7 @@
         <div class="col-lg-9 home__recommend-group-book">
           <div class="home__book-of-the-day">
             <div class="home__book-of-the-day-header">
-              <div class="home__book-of-the-day-title">Book Of The Day</div>
+              <div class="home__book-of-the-day-title">Sách Hôm Nay</div>
               <div class="home__book-of-the-day-line">
                 <div class="line"></div>
               </div>
@@ -310,15 +304,15 @@
             <div class="home__book-of-the-day-list-book row">
               <div class="col-lg-6 home__book-of-the-day-element">
                 <div class="home__book-of-the-day-element-image">
-                  <img src="/image/bookoftheday.jpg" alt="" />
+                  <img src="/image/Tuong_Lai_Den_Nhanh_Hon_Ban_Nghi.jpg" alt="" />
                 </div>
 
                 <div class="home__book-of-the-day-element-information">
                   <div class="home__book-of-the-day-element-title">
-                    Treachery: Alpha Colony Book 8
+                    Tương lai đến nhanh hơn bạn nghĩ
                   </div>
                   <div class="home__book-of-the-day-element-author">
-                    Jessica Munoz
+                    Steven Kotler
                   </div>
                   <div class="rating">
                     <span class="star filled">★</span>
@@ -332,15 +326,15 @@
 
               <div class="col-lg-6 home__book-of-the-day-element">
                 <div class="home__book-of-the-day-element-image">
-                  <img src="/image/bookoftheday.jpg" alt="" />
+                  <img src="/image/Dung_Lua_Chon_An_Nhan.jpg" alt="" />
                 </div>
 
                 <div class="home__book-of-the-day-element-information">
                   <div class="home__book-of-the-day-element-title">
-                    Treachery: Alpha Colony Book 8
+                    Đừng lựa chọn an nhàn khi còn trẻ
                   </div>
                   <div class="home__book-of-the-day-element-author">
-                    Jessica Munoz
+                    Zena Hitz
                   </div>
                   <div class="rating">
                     <span class="star filled">★</span>
@@ -356,7 +350,7 @@
 
           <div class="home__trending-book">
             <div class="home__book-header">
-              <div class="home__book-header-title">Trending Now</div>
+              <div class="home__book-header-title">Đang Xu Hướng</div>
               <div class="home__book-line">
                 <div class="line"></div>
               </div>
@@ -369,21 +363,21 @@
                   <div
                     class="home__feature-book-element-image home__trending-book-content-image"
                   >
-                    <img src="/image/trendingbook.jpg" alt="" />
+                    <img src="/image/Khong_Gia_Dinh.jpg" alt="" />
                   </div>
 
                   <div class="home__feature-book-element-information">
                     <div class="home__feature-book-element-title">
-                      The Secret Deep
+                      Không Gia Đình
                     </div>
                     <div class="home__feature-book-element-author">
-                      LindSay Galvin
+                      Hector Malot
                     </div>
                     <div class="rating">
                       <span class="star filled">★</span>
                       <span class="star filled">★</span>
-                      <span class="star">☆</span>
-                      <span class="star">☆</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
                       <span class="star">☆</span>
                     </div>
                   </div>
@@ -393,22 +387,22 @@
                   <div
                     class="home__feature-book-element-image home__trending-book-content-image"
                   >
-                    <img src="/image/trendingbook.jpg" alt="" />
+                    <img src="/image/De_Men_Phieu_Luu_Ky.jpg" alt="" />
                   </div>
 
                   <div class="home__feature-book-element-information">
                     <div class="home__feature-book-element-title">
-                      The Secret Deep
+                      Dế mèn phiêu lưu ký
                     </div>
                     <div class="home__feature-book-element-author">
-                      LindSay Galvin
+                      Tô Hoài
                     </div>
                     <div class="rating">
                       <span class="star filled">★</span>
                       <span class="star filled">★</span>
-                      <span class="star">☆</span>
-                      <span class="star">☆</span>
-                      <span class="star">☆</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
                     </div>
                   </div>
                 </div>
@@ -417,22 +411,22 @@
                   <div
                     class="home__feature-book-element-image home__trending-book-content-image"
                   >
-                    <img src="/image/trendingbook.jpg" alt="" />
+                    <img src="/image/Hieu_Ve_Trai_Tim.jpg" alt="" />
                   </div>
 
                   <div class="home__feature-book-element-information">
                     <div class="home__feature-book-element-title">
-                      The Secret Deep
+                      Hiểu về trái tim
                     </div>
                     <div class="home__feature-book-element-author">
-                      LindSay Galvin
+                      Minh Niệm
                     </div>
                     <div class="rating">
                       <span class="star filled">★</span>
                       <span class="star filled">★</span>
-                      <span class="star">☆</span>
-                      <span class="star">☆</span>
-                      <span class="star">☆</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
                     </div>
                   </div>
                 </div>
@@ -446,7 +440,7 @@
 
           <div class="home__new-release">
             <div class="home__book-header">
-              <div class="home__book-header-title">New Release</div>
+              <div class="home__book-header-title">Mới Ra Mắt</div>
               <div class="home__book-line">
                 <div class="line"></div>
               </div>
@@ -459,20 +453,44 @@
                   <div
                     class="home__feature-book-element-image home__new-release-content-image"
                   >
-                    <img src="/image/new-release.jpg" alt="" />
+                    <img src="/image/buocchamlaigiuathegianvoiva.jpg" alt="" />
                   </div>
 
                   <div class="home__feature-book-element-information">
                     <div class="home__feature-book-element-title">
-                      The Secret Deep
+                      Bước chậm lại giữa thế gian vội vã
                     </div>
                     <div class="home__feature-book-element-author">
-                      LindSay Galvin
+                      Hae Min
                     </div>
                     <div class="rating">
                       <span class="star filled">★</span>
                       <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
                       <span class="star">☆</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 home__feature-book-element">
+                  <div
+                    class="home__feature-book-element-image home__new-release-content-image"
+                  >
+                    <img src="/image/1984.jpg" alt="" />
+                  </div>
+
+                  <div class="home__feature-book-element-information">
+                    <div class="home__feature-book-element-title">
+                      1984
+                    </div>
+                    <div class="home__feature-book-element-author">
+                      George Drwell
+                    </div>
+                    <div class="rating">
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
+                      <span class="star filled">★</span>
                       <span class="star">☆</span>
                       <span class="star">☆</span>
                     </div>
@@ -483,45 +501,21 @@
                   <div
                     class="home__feature-book-element-image home__new-release-content-image"
                   >
-                    <img src="/image/new-release.jpg" alt="" />
+                    <img src="/image/Dune.jpg" alt="" />
                   </div>
 
                   <div class="home__feature-book-element-information">
                     <div class="home__feature-book-element-title">
-                      The Secret Deep
+                      Dune
                     </div>
                     <div class="home__feature-book-element-author">
-                      LindSay Galvin
+                      Frank Herbert
                     </div>
                     <div class="rating">
                       <span class="star filled">★</span>
                       <span class="star filled">★</span>
-                      <span class="star">☆</span>
-                      <span class="star">☆</span>
-                      <span class="star">☆</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-lg-4 home__feature-book-element">
-                  <div
-                    class="home__feature-book-element-image home__new-release-content-image"
-                  >
-                    <img src="/image/new-release.jpg" alt="" />
-                  </div>
-
-                  <div class="home__feature-book-element-information">
-                    <div class="home__feature-book-element-title">
-                      The Secret Deep
-                    </div>
-                    <div class="home__feature-book-element-author">
-                      LindSay Galvin
-                    </div>
-                    <div class="rating">
                       <span class="star filled">★</span>
                       <span class="star filled">★</span>
-                      <span class="star">☆</span>
-                      <span class="star">☆</span>
                       <span class="star">☆</span>
                     </div>
                   </div>
@@ -539,7 +533,7 @@
                 <div class="home__top-book-list">
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/Mat_biec.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-1">1</div>
@@ -548,17 +542,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Mắt Biếc
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Nguyễn Nhật Ánh
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/Toi_Thay_Hoa_Vang_Tren_Co_Xanh.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-2">2</div>
@@ -567,17 +561,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Tôi thấy hoa...
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Nguyễn Nhật Ánh
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/Canh_Dong_Bat_Tan.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-3">3</div>
@@ -586,17 +580,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Cánh đồng bất...
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Nguyễn Ngọc Tư
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/Hieu_Ve_Trai_Tim.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-4">4</div>
@@ -605,17 +599,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Hiểu về trái tim
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Minh Niệm
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/An_Gi_Khong_Chet.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-5">5</div>
@@ -624,17 +618,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Ăn gì không chết
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Michael Greger
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/Dac_Nhan_Tam.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-6">6</div>
@@ -643,17 +637,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Đắc Nhân Tâm
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Dale Carnegie
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/Co_Gai_Den_Tu_Hom_Qua.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-7">7</div>
@@ -662,17 +656,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Cô gái đến từ...
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Nguyễn Ngọc Ánh
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/Di_Qua_Hoa_Cuc.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-8">8</div>
@@ -681,17 +675,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Đi Qua Hoa...
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Nguyễn Ngọc Tư
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/Dune.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-9">9</div>
@@ -700,17 +694,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Dune
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Frank Herbert
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/topbook.jpg" alt="" />
+                      <img src="/image/Nha_Gia_Kim.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-10">
@@ -721,10 +715,10 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Nhà Giả Kim
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Paulo Coelho
                       </div>
                     </div>
                   </div>
@@ -738,7 +732,7 @@
                 <div class="home__top-book-list">
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/mostview.jpg" alt="" />
+                      <img src="/image/Mat_biec.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-1">1</div>
@@ -747,17 +741,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Mắt biếc
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Nguyễn Nhật Ánh
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/mostview.jpg" alt="" />
+                      <img src="/image/Ngoi_Khoc_Tren_Cay.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-2">2</div>
@@ -766,17 +760,17 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Ngồi khóc trên cây
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Nguyễn Nhật Ánh
                       </div>
                     </div>
                   </div>
 
                   <div class="home__top-book-element">
                     <div class="home__top-book-element-image">
-                      <img src="/image/mostview.jpg" alt="" />
+                      <img src="/image/Chuyen_Con_Meo_Day_Hai_Au_Bay.jpg" alt="" />
 
                       <div class="home__top-book-element-rank-wrapper">
                         <div class="home__top-book-element-rank rank-3">3</div>
@@ -785,10 +779,10 @@
 
                     <div class="home__top-book-element-information">
                       <div class="home__top-book-element-title">
-                        The Good Egg
+                        Chuyện con mèo...
                       </div>
                       <div class="home__top-book-element-author">
-                        Arthur Gonzalez
+                        Luis Sepulveda
                       </div>
                     </div>
                   </div>
@@ -799,51 +793,6 @@
         </div>
       </div>
     </div>
-
-    <section class="home__featured-authors">
-      <h2 class="home__section-title">Features Author</h2>
-
-      <div class="author-grid">
-        <div class="author-card">
-          <img
-            src="/image/author.jpg"
-            alt="Nguyễn Nhật Ánh"
-            class="author-avatar"
-          />
-          <div class="author-content">
-            <h3 class="author-name">Nguyễn Nhật Ánh</h3>
-            <p class="author-role">Nhà văn tuổi thơ Việt Nam</p>
-            <p class="author-sub">12 sách • 890 lượt mượn</p>
-          </div>
-        </div>
-
-        <div class="author-card">
-          <img
-            src="/image/author.jpg"
-            alt="J.K. Rowling"
-            class="author-avatar"
-          />
-          <div class="author-content">
-            <h3 class="author-name">J.K. Rowling</h3>
-            <p class="author-role">Tác giả Harry Potter</p>
-            <p class="author-sub">8 sách • 1200 lượt mượn</p>
-          </div>
-        </div>
-
-        <div class="author-card">
-          <img
-            src="/image/author.jpg"
-            alt="Haruki Murakami"
-            class="author-avatar"
-          />
-          <div class="author-content">
-            <h3 class="author-name">Haruki Murakami</h3>
-            <p class="author-role">Nhà văn siêu thực nổi tiếng</p>
-            <p class="author-sub">10 sách • 720 lượt mượn</p>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 
   <Footer />
@@ -852,7 +801,7 @@
 <script>
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
-import { userState } from '../assets/js/userState';
+import { userState } from "../assets/js/userState";
 
 export default {
   name: "Home",

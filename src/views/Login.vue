@@ -2,7 +2,7 @@
   <div class="login">
     <form @submit.prevent="handleLogin" class="login-form">
       <div class="login-form-welcome">
-        <div class="login-form-welcome-title">Welcome</div>
+        <div class="login-form-welcome-title">Xin chào</div>
         <div class="login-form-welcome-logo">
           <img src="/image/logo_login.png" alt="" />
         </div>
@@ -10,20 +10,20 @@
 
       <div class="login-form-input-and-button">
         <div class="login-form-input-username">
-          <input v-model="username" type="text" placeholder="Username" />
+          <input v-model="username" type="text" placeholder="Tên đăng nhập" />
         </div>
 
         <div class="login-form-input-password">
-          <input v-model="password" type="password" placeholder="Password" />
+          <input v-model="password" type="password" placeholder="Mật khẩu" />
           <i class="fa-solid fa-eye"></i>
         </div>
 
-        <button type="submit" class="login-form-btn">Login</button>
+        <button type="submit" class="login-form-btn">Đăng nhập</button>
       </div>
 
       <div class="login-form-ask">
-        Don't have an account?
-        <router-link to="/signup"><span>Sign Up</span></router-link>
+        Bạn chưa có tài khoản?
+        <router-link to="/signup"><span>Đăng ký</span></router-link>
       </div>
     </form>
   </div>
